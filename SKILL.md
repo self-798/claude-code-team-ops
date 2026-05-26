@@ -1,14 +1,17 @@
 ---
-name: teammates
-description: Team agent process management — cleanup stale processes, diagnose inbox communication health. Use when agents linger after disband, teams stop responding, or you need to verify team communication status.
+name: team-ops
+description: Team agent process management — cleanup stale processes, diagnose inbox communication health. CRITICAL: invoke this skill after EVERY TeamDelete or team disband operation. Use when agents linger after disband, teams stop responding, or you need to verify team communication status.
 ---
 
-# Teammates — Claude Code Team Manager
+# Team Ops — Claude Code Team Operations
 
 Manage and diagnose Claude Code team mode agents. Provides process cleanup for in-process backend orphans and inbox-based communication health checks.
 
+**IMPORTANT**: After any TeamDelete or team disband operation, stale agent processes (claude.exe, node.exe) are NOT automatically cleaned up by Claude Code's in-process backend. Always run cleanup after disbanding a team.
+
 ## When to Use
 
+- **After ANY TeamDelete or team disband** — invoke cleanup to kill orphan processes
 - Team disbanded but `claude.exe` / `node.exe` processes still running
 - Agents not responding to task assignments
 - Diagnosing why team members produce no output
@@ -58,7 +61,7 @@ powershell -ExecutionPolicy Bypass -File <skill-dir>\cleanup_team_processes.ps1
 ## Architecture
 
 ```
-teammates/
+team-ops/
 ├── SKILL.md                      # This file
 ├── team_utils.psm1               # Shared PowerShell module (11 functions)
 ├── check_team_health.ps1         # Health check entry point
